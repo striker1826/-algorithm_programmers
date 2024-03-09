@@ -34,3 +34,15 @@ function solution(n, arr) {
 }
 
 solution(5, [6, 9, 5, 7, 4]);
+
+function isCopyObj(origin) {
+  let res = {};
+  for (let key in origin) {
+    if (typeof origin[key] === "object") {
+      res[key] = isCopyObj(obj[key]);
+    } else {
+      res[key] = origin[key];
+    }
+  }
+  return res;
+}

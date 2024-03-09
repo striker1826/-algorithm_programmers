@@ -1,0 +1,387 @@
+<html lang="ko" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta property="og:title" content="자바스크립트 - 깊은 복사와 얕은 복사" />
+    <meta property="og:description" content="깊은 복사와 얕은 복사, 자바스크립트에서 깊은 복사를 하는 방법" />
+    <meta property="og:image" content="https://zaeyon.com/images/posts/4/thumbnail_detail.png" />
+    <meta property="og:type" content="website" />
+
+    <title>자바스크립트 - 얕은 복사와 깊은 복사</title>
+
+    <style>
+      html {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #666;
+      }
+      body {
+        margin: 0;
+      }
+
+      hr {
+        /* border: 1px solid #ee2323; */
+        background-color: #ee2323;
+      }
+
+      .toc__menu {
+        list-style: none !important;
+        color: #000000 !important;
+      }
+    </style>
+
+    <!-- bootstrap5 -->
+    <link
+      id="myboot"
+      rel="stylesheet"
+      href="https://tistory1.daumcdn.net/tistory/4939852/skin/images/b-boot.css?_version_=1707099925"
+    />
+
+    <!-- main -->
+    <link
+      id="main"
+      href="https://tistory1.daumcdn.net/tistory/4939852/skin/style.css?_version_=1707099925"
+      rel="stylesheet"
+    />
+    <link id="style_last" />
+
+    <link
+      id="devicon"
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+      media="all"
+      onload="this.media='all'"
+    />
+    <link
+      id="fa_pro"
+      rel="stylesheet"
+      href="https://tistory1.daumcdn.net/tistory/4939852/skin/images/fontAwesomePro5.css?_version_=1707099925"
+      media="all"
+      onload="this.media='all'"
+    />
+    <link id="d2coding" />
+    <link id="__hljs" rel="stylesheet" />
+
+    <style class="fslightbox-styles">
+      h2 {
+        /* border-bottom: 1px solid #ee2323; */
+        font-size: 26px;
+      }
+    </style>
+    <link
+      media="all"
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css"
+    />
+  </head>
+
+  <body id="tt-body-page">
+    <div id="__tidory" class="loaded">
+      <main id="__main">
+        <div id="permalink_article">
+          <div class="article permalink mt-0 pt-0">
+            <!-- ******************** 본문 ******************** -->
+            <h2 data-ke-size="size26" style="border: none; margin-top: 150px; margin-bottom: -40px">
+              자바스크립트 - 얕은 복사와 깊은 복사
+            </h2>
+            <article id="postArticle" class="content z-index-5" style="margin-top: 120px">
+              <!-- 본문 내용 시작 -->
+              <div id="article_rep" data-content="">
+                <!-- 목차 toc -->
+                <nav class="toc2 book-toc">
+                  <h4 class="nav__title" style="color: #fff"><i class="fal fa-list-ol"></i> 목차</h4>
+                  <ol class="toc__menu" style="list-style: none">
+                    <li style="list-style: none">
+                      <a href="#Primitive Type과 Reference Type" style="text-decoration: none"
+                        >Primitive Type과 Reference Type</a
+                      >
+                      <ol>
+                        <li style="list-style: none">
+                          <a href="#Primitive 타입과 Reference Type의 종류" style="text-decoration: none"
+                            >Primitive Type과 Reference Type의 종류</a
+                          >
+                        </li>
+                      </ol>
+                    </li>
+
+                    <li style="list-style: none">
+                      <a href="#Primitive Type과 Reference Type의 복사 후 재할당" style="text-decoration: none"
+                        >Primitive Type과 Reference Type의 복사 후 재할당</a
+                      >
+                      <ol>
+                        <li style="list-style: none">
+                          <a href="#Primitive Type의 복사" style="text-decoration: none">Primitive Type의 복사</a>
+                        </li>
+                        <li style="list-style: none">
+                          <a href="#Reference Type의 복사" style="text-decoration: none">Reference Type의 복사</a>
+                        </li>
+                      </ol>
+                    </li>
+                    <li style="list-style: none">
+                      <a href="#깊은 복사를 하는 방법들" style="text-decoration: none">깊은 복사를 하는 방법들</a>
+                      <ol>
+                        <li style="list-style: none">
+                          <a href="#JSON 객체를 이용하는 방법" style="text-decoration: none"
+                            >JSON 객체를 이용하는 방법</a
+                          >
+                        </li>
+                        <li style="list-style: none">
+                          <a href="#재귀 함수를 이용하는 방법" style="text-decoration: none"
+                            >재귀 함수를 이용하는 방법</a
+                          >
+                        </li>
+                      </ol>
+                    </li>
+                  </ol>
+                </nav>
+
+                <script id="toctoc"></script>
+
+                <div class="tt_article_useless_p_margin contents_style">
+                  <h1
+                    style="color: #000000; text-align: start"
+                    data-ke-size="size26"
+                    id="Primitive Type과 Reference Type"
+                  >
+                    Primitive Type과 Reference Type
+                  </h1>
+                  <hr />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p data-ke-size="size16">
+                    Primitive Type의 데이터와 Reference Type의 데이터는 메모리에 저장되는 방식이 다릅니다. Primitive
+                    Type의 데이터는 값의 메모리를 참조하지만 Reference Type의 데이터는 값의 메모리를 참조하는 메모리를
+                    참조합니다. 그렇기 때문에 Primitive Type과 Reference Type은 복사하는 방식은 같지만 참조하는 대상이
+                    값이 들어있는 메모리 주소인지, 값이 들어있는 메모리 주소를 참조하는 메모리인지의 차이를 보입니다.
+                    만약 이 내용이 이해가 안되신다면 Primitive Type과 Reference Type이 메모리에 저장되는 방식을
+                    찾아보시는 것이 좋습니다.
+                  </p>
+
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+
+                  <p>
+                    관련 블로그:
+                    <a href="https://striker1826.tistory.com/24" target="_blank" style="color: #ee2323"
+                      >Primitive Type과 Reference Type의 데이터가 메모리에 저장되는 방식</a
+                    >
+                  </p>
+
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+
+                  <h3 data-ke-size="size23" id="Primitive 타입과 Reference Type의 종류">
+                    Primitive 타입과 Reference Type의 종류
+                  </h3>
+
+                  <p data-ke-size="size16">
+                    Primitive Type의 데이터는 Number, String, Boolean, Null, Undefined, Symbol Reperence Type의 데이터는
+                    Array, Function, Date, RegExp, Map, WeakMap, Set, WeakSet이 있습니다. 각 데이터 유형이 어떤 Type의
+                    데이터인지 알아두면 좋습니다.
+                  </p>
+                  <img
+                    src="https://blog.kakaocdn.net/dn/boatXT/btsFh7d4z1f/gkZT8ilbUWErvZkL3yRs6K/img.png"
+                    alt="Primitive Type과 Reference Type의 종류 이미지"
+                  />
+
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+
+                  <h1 data-ke-size="size26" id="Primitive Type과 Reference Type의 복사 후 재할당">
+                    Primitive Type과 Reference Type의 복사 후 재할당
+                  </h1>
+                  <hr />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p data-selectable-paragraph="" data-ke-size="size16">
+                    위에서 언급한대로 Primitive Type과 Reference Type은 데이터를 복사할 때 참조하는 대상의 형식이
+                    다릅니다. 이러한 방식이 코드에서 어떻게 나타나는지 알아보겠습니다.
+                  </p>
+
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <h3 data-ke-size="size23" id="Primitive Type의 복사">Primitive Type의 복사</h3>
+                  <pre class="javascript" data-ke-language="javascript" data-ke-type="codeblock"><code>let a = "hello";
+let b = a;
+
+b = "world";
+
+console.log(a); // hello
+console.log(b); // world</code></pre>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    위 코드에서 보시다시피 Primitive Type인 String 데이터는 a의 값을 복사한 b의 값이 바뀌어도 a값은
+                    그대로 유지되는 것을 볼 수 있습니다. 이는 Primitive Type의 데이터가 복사될 때 값이 들어있는 메모리를
+                    참조하기 때문에 복사본의 데이터가 바뀌어도 원본의 데이터가 바뀌지 않는 것이죠. 이 부분을 이해가
+                    쉽도록 그림으로 보겠습니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <img
+                    src="https://blog.kakaocdn.net/dn/dhCR7l/btsFAuO1GmJ/gFVKAkoktnRL5iRjSDqgLK/img.png"
+                    alt="Primitive Type 변수 복사 이미지 1"
+                  />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    우선은 변수 영역의 메모리에 변수 a를 저장하고 데이터 영역의 메모리에 a의 값인 "hello"를 저장합니다.
+                    그 후에 "hello"가 저장된 메모리의 주소인 5001을 변수 영역에 저장합니다.
+                  </p>
+
+                  <img
+                    src="https://blog.kakaocdn.net/dn/Fk7o5/btsFA70f7tU/IJPvj8fJY7TMzzDiAkFotk/img.png"
+                    alt="Primitive Type 변수 복사 이미지 2"
+                  />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>변수 b에 a가 할당이 되면 b가 등록되어 있는 메모리에 a의 값인 5001번 메모리를 저장합니다.</p>
+
+                  <img
+                    src="https://blog.kakaocdn.net/dn/FtOK9/btsFBcmMGEh/menn9ZrwdeLpq8FNIvd8b0/img.png"
+                    alt="Primitive Type 변수 복사 이미지 3"
+                  />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    b의 값이 바뀌면 데이터 영역에 world라는 값이 들어있는 메모리 공간을 생성하고 (5002) 해당 메모리를
+                    b에 값에 저장합니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    위와 같은 과정을 거치기 때문에 Primitive Type의 데이터들은 복사 후 복사본이나 원본이 바뀔 때 다른
+                    한쪽에 영향을 주지 않습니다. 그렇다면 Reference Type은 어떨까요?
+                  </p>
+
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+
+                  <h3 data-ke-size="size23" id="Reference Type의 복사">Reference Type의 복사</h3>
+                  <pre class="javascript" data-ke-language="javascript" data-ke-type="codeblock"><code>let a = {
+  name: "kim",
+  age: 29,
+};
+
+let b = a;
+
+b.name = "lee";
+
+console.log(a); // { name: 'lee', age: 29 }
+console.log(b); // { name: 'lee', age: 29 }
+</code></pre>
+                  위 코드에서 볼 수 있듯이 <span style="color: #ee2323">Reference Type</span>에서는 복사 후 값 변경이
+                  <span style="color: #ee2323">원본에 영향을 줍니다</span>. 이는 Reference Type의 데이터가 복사될 때
+                  <span style="color: #ee2323">값이 들어있는 메모리를 참조하는 메모리를 참조</span>하기 때문입니다. 이
+                  부분을 이해가 쉽도록 그림으로 보겠습니다.
+
+                  <p data-selectable-paragraph="" data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+
+                  <img
+                    src="https://blog.kakaocdn.net/dn/Vh3mg/btsFA52p2aT/gXak2Un4kSoqh4q2tnHsP1/img.png"
+                    alt="Reference Type 변수 복사 이미지 1"
+                  />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>Reference Type은 객체를 저장하기 위해서 Primitive Type보다 한단계가 더 늘어납니다.</p>
+                  <ol>
+                    <li>1. 변수 a의 값을 1001번 메모리에 저장을 합니다.</li>
+                    <li>2. 데이터 영역 메모리에서 임의의 길이만큼의 공간을 확보합니다.</li>
+                    <li>3. 확보된 메모리에 객체의 프로퍼티 이름들을 저장합니다.</li>
+                    <li>4. 데이터 영역에 각 프로퍼티들의 값을 저장하고 해당 메모리 주소들을 할당합니다</li>
+                  </ol>
+
+                  <img
+                    src="https://blog.kakaocdn.net/dn/d12hrL/btsFC0FT56a/HwKp4z7W7yYvEZ3g9VmKWK/img.png"
+                    alt="Reference Type 변수 복사 이미지 2"
+                  />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    변수 b에 a를 할당했으니 변수 영역 메모리에 변수 b의 메모리를 확보하고 a의 값의 주소인 5001번
+                    메모리를 저장합니다.
+                  </p>
+                  <img
+                    src="https://blog.kakaocdn.net/dn/dyIu7r/btsFEvSIFW7/Fw9Jb2cE8rvqaSeJYvjBx1/img.png"
+                    alt="Reference Type 변수 복사 이미지 3"
+                  />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    b의 name의 값이 바뀌었으니 name이라는 이름이 등록되어 있는 메모리로 찾아가 새로운 값인 "lee" 라는
+                    값을 할당해줍니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    위 과정을 살펴보면 왜 Reference Type의 카피본이 변했을 때 원본에 영향을 주는지를 아실 수 있으실
+                    겁니다. 1001번 메모리와 1002번 메모리가 같은 주소를 참조하고 있고 참조하고 있는 해당 메모리가 다른
+                    값들을 참조하고 있기 때문에 이러한 현상이 벌어지는 것입니다.
+                  </p>
+                  <p>
+                    그럼 Reference Type의 데이터는 항상 카피본의 변형이 원본에 영향을 끼쳐야 하는 걸까요? 아무리
+                    바뀌어도 원본에는 영향을 주지 않는 방법은 없는 것일까요? 정답을 말하자면 방법은 존재합니다. 그리고
+                    이러한 원본에 영향을 주지 않는 카피본을 만드는 복사를 깊은 복사라고 합니다.
+                  </p>
+
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+
+                  <h1 data-ke-size="size26" id="깊은 복사를 하는 방법들">깊은 복사를 하는 방법들</h1>
+                  <hr />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    앞선 내용에서 원본에 영향을 주지 않는 카피본을 만드는 복사를 깊은 복사라고 했습니다. Primitive
+                    Type의 데이터는 별도의 작업 없이도 깊은 복사가 이루어지지만 Reference Type의 데이터는 메모리 저장
+                    방식의 특성상 별도의 작업을 해줘야 합니다. 깊은 복사를 하는 다양한 방법들에 대해서 알아봅시다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <h3 data-ke-size="size23" id="JSON 객체를 이용하는 방법">JSON 객체를 이용하는 방법</h3>
+                  <p>
+                    Reference Type의 데이터를 깊은 복사를 하는 방법은 다양합니다. 그 중에서 가장 많이 사용되는 방법은
+                    JSON 객체를 이용한 방법입니다. JSON 객체를 이용하면 객체를 문자열로 변환하고 다시 객체로 변환하는
+                    과정을 거치면서 깊은 복사를 할 수 있습니다.
+                  </p>
+                  <pre class="javascript" data-ke-language="javascript" data-ke-type="codeblock"><code>let a = {
+  name: "kim",
+  age: 29,
+};
+
+let b = JSON.parse(JSON.stringify(a));
+
+b.name = "lee";
+
+console.log(a); // { name: 'kim', age: 29 }
+console.log(b); // { name: 'lee', age: 29 }
+</code></pre>
+
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <h3 data-ke-size="size23" id="재귀 함수를 이용하는 방법">재귀 함수를 이용하는 방법</h3>
+                  <p>
+                    JSON 객체를 이용하는 방법은 객체의 프로퍼티가 함수나 undefined, Symbol 등의 데이터가 있을 때 사용할
+                    수 없습니다. 이러한 경우에는 재귀 함수를 이용하여 깊은 복사를 할 수 있습니다.
+                  </p>
+                  <pre
+                    class="javascript"
+                    data-ke-language="javascript"
+                    data-ke-type="codeblock"
+                  ><code>function isCopyObj(origin) {
+  let res = {};
+
+  for (let key in origin) {
+    if (typeof origin[key] === "object") {
+      res[key] = isCopyObj(obj[key]);
+    } else {
+      res[key] = origin[key];
+    }
+  }
+
+  return res;
+}
+</code></pre>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    이 밖에도 Object.assign()이나 Spread 문법을 사용하면 깊은 복사를 진행할 수 있지만 2차원 배열이나
+                    2차원 객체 같은 경우에는 내부의 데이터가 얕은 복사로 진행이 됩니다. 따라서 완전한 깊은 복사라고 볼
+                    수 없으며 이를 인지하지 못하고 사용한다면 예상치 못한 에러를 맞닥뜨릴 수 있습니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <hr style="background-color: #ee2323; size: 1px" />
+                  <p>
+                    이번 포스팅에서는 깊은 복사와 얕은 복사, 그리고 Reference Type에서 깊은 복사를 진행하는 방법까지
+                    알아보았습니다. 각 데이터 타입이 메모리에서 어떻게 저장되고 동작하는지를 이해하고 코드를 작성하면
+                    더욱 더 안전한 코드를 작성할 수 있을겁니다. 이상으로 포스팅을 마치겠습니다. 감사합니다.
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,381 @@
+<html lang="ko" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta property="og:title" content="자바스크립트 - var, let, const의 차이점" />
+    <meta property="og:description" content="var, let, const의 차이점" />
+    <meta property="og:image" content="https://miro.medium.com/v2/resize:fit:1400/1*uKSqphvj9r712aKOujuZtQ.png" />
+    <meta property="og:type" content="website" />
+
+    <title>자바스크립트 - var, let, const의 차이점</title>
+
+    <style>
+      html {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #666;
+      }
+      body {
+        margin: 0;
+      }
+
+      hr {
+        background-color: #ee2323;
+      }
+
+      .toc__menu {
+        list-style: none !important;
+        color: #000000 !important;
+      }
+    </style>
+
+    <!-- bootstrap5 -->
+    <link
+      id="myboot"
+      rel="stylesheet"
+      href="https://tistory1.daumcdn.net/tistory/4939852/skin/images/b-boot.css?_version_=1707099925"
+    />
+
+    <!-- main -->
+    <link
+      id="main"
+      href="https://tistory1.daumcdn.net/tistory/4939852/skin/style.css?_version_=1707099925"
+      rel="stylesheet"
+    />
+    <link id="style_last" />
+
+    <link
+      id="devicon"
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+      media="all"
+      onload="this.media='all'"
+    />
+    <link
+      id="fa_pro"
+      rel="stylesheet"
+      href="https://tistory1.daumcdn.net/tistory/4939852/skin/images/fontAwesomePro5.css?_version_=1707099925"
+      media="all"
+      onload="this.media='all'"
+    />
+    <link id="d2coding" />
+    <link id="__hljs" rel="stylesheet" />
+
+    <style class="fslightbox-styles">
+      h2 {
+        /* border-bottom: 1px solid #ee2323; */
+        font-size: 26px;
+      }
+      table {
+        border-collapse: collapse;
+        background-color: white;
+      }
+
+      /* 테이블 행 */
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+      }
+
+      th {
+        background-color: #1b1b1b;
+        color: #ddd;
+      }
+
+      /* 테이블 올렸을 때 */
+      tbody tr:hover {
+        background-color: #d3d3d3;
+        opacity: 0.9;
+        cursor: pointer;
+      }
+
+      /* 테이블 비율 */
+      th:nth-child(1),
+      td:nth-child(1) {
+        width: 15%;
+      }
+
+      th:nth-child(3),
+      td:nth-child(3) {
+        width: 30%;
+      }
+
+      tr:nth-child(even) {
+        background-color: #fff6f6;
+      }
+    </style>
+    <link
+      media="all"
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css"
+    />
+  </head>
+
+  <body id="tt-body-page">
+    <div id="__tidory" class="loaded">
+      <main id="__main">
+        <div id="permalink_article">
+          <div class="article permalink mt-0 pt-0">
+            <!-- ******************** 본문 ******************** -->
+            <h2 data-ke-size="size26" style="border: none; margin-top: 150px; margin-bottom: -40px">
+              자바스크립트 - var, let, const의 차이점과 호이스팅
+            </h2>
+            <article id="postArticle" class="content z-index-5" style="margin-top: 120px">
+              <!-- 본문 내용 시작 -->
+              <div id="article_rep" data-content="">
+                <!-- 목차 toc -->
+                <nav class="toc2 book-toc">
+                  <h4 class="nav__title" style="color: #fff"><i class="fal fa-list-ol"></i> 목차</h4>
+                  <ol class="toc__menu" style="list-style: none; text-decoration: none">
+                    <li style="list-style: none">
+                      <a href="#Prologue" style="text-decoration: none">Prologue</a>
+                    </li>
+
+                    <li style="list-style: none">
+                      <a href="#var 변수 선언자" style="text-decoration: none">var 변수 선언자</a>
+                      <ol>
+                        <li><a href="#재선언과 재할당" style="text-decoration: none">재선언과 재할당</a></li>
+                        <li><a href="#호이스팅에서의 관점" style="text-decoration: none">호이스팅에서의 관점</a></li>
+                      </ol>
+                    </li>
+                    <li>
+                      <a href="#let 변수 선언자" style="text-decoration: none">let 변수 선언자</a>
+
+                      <ol>
+                        <li><a href="#재선언과 재할당_let" style="text-decoration: none">재선언과 재할당</a></li>
+                        <li>
+                          <a href="#호이스팅에서의 관점_let" style="text-decoration: none">호이스팅에서의 관점</a>
+                        </li>
+                      </ol>
+                    </li>
+                    <li>
+                      <a href="#const 변수 선언자" style="text-decoration: none">const 변수 선언자</a>
+                      <ol>
+                        <li><a href="#재선언과 재할당_const" style="text-decoration: none">재선언과 재할당</a></li>
+                        <li>
+                          <a href="#호이스팅에서의 관점_const" style="text-decoration: none">호이스팅에서의 관점</a>
+                        </li>
+                      </ol>
+                    </li>
+                    <li><a href="#정리" style="text-decoration: none">정리</a></li>
+                  </ol>
+                </nav>
+
+                <script id="toctoc"></script>
+
+                <div class="tt_article_useless_p_margin contents_style">
+                  <h1 style="color: #000000; text-align: start" data-ke-size="size26" id="Prologue">Prologue</h1>
+                  <hr />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p data-ke-size="size16">
+                    프로그래밍에서의 변수란 데이터들을 저장하는 공간을 뜻합니다. 변수는 값 자체를 뜻하는 것이 아니라
+                    물건들을 저장할 수 있는 작은 상자와 같이, 변경될 수 있는 값을 위한 컨테이너라고 할 수 있습니다.
+                    자바스크립트에서도 데이터를 담기 위해서 변수를 선언해야 하고, 또한 변수를 선언하기 위해서는 변수
+                    선언자의 사용이 필요합니다. 이번 글에서는 javascript에서 사용되는 변수 선언 var, let, const에 대해
+                    알아보고, 각자의 특징과 차이점을 비교해보도록 하겠습니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <h1 style="color: #000000; text-align: start" data-ke-size="size26" id="var 변수 선언자">
+                    var 변수 선언자
+                  </h1>
+                  <hr />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    변수 선언자 var는 let과 const가 등장하기 이전까지 JavaScript의 유일한 변수 선언자였습니다. 그래서
+                    JavaScript로 짜여진 레거시 코드들을 보면 var를 마주칠 수 밖에 없습니다. 하지만 이 var라는 변수
+                    선언자는 문제점이 많아서 let과 const를 등장하게 했는데요. var는 어떤 특징이 있고 어떤 문제점이
+                    있는지를 살펴보겠습니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+
+                  <h3 data-ke-size="size23" id="재선언과 재할당">재선언과 재할당</h3>
+                  <p>
+                    var는 재선언과 재할당이 모두 가능한 변수 선언자입니다. 이 말은 코드 작업시에 다른 사람이 선언해 놓은
+                    변수를 실수로 덮어쓸 수도 있다는 뜻입니다. 코드로 한번 살펴보겠습니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <pre class="javascript" data-ke-language="javascript" data-ke-type="codeblock"><code>var name = "kim";
+var name = "lee";   // var는 중복 선언(재선언)과 재할당이 가능하다.
+
+console.log(name);  // "lee"
+</code></pre>
+                  <p>
+                    위 코드에서 볼 수 있듯이 var로 선언된 변수는 재선언과 재할당이 모두 가능합니다. 만약에 내가 사용하는
+                    변수가 이미 코드상에 존재하는 변수라면 기존에 있던 변수가 소리 소문 없이 사라져버립니다. 이러한 점은
+                    var의 매우 큰 문제점으로 여겨지고 있습니다.
+                  </p>
+
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+
+                  <h3 data-ke-size="size23" id="호이스팅에서의 관점">호이스팅에서의 관점</h3>
+                  <p>
+                    자바스크립트에는 호이스팅이라는 것이 있습니다. 실행 컨텍스트 중에서도 Lexical Environment에서 현재
+                    컨텍스트의 정보들을 수집할 때 변수들도 같이 수집을 하게 되는데 이러한 현상이 마치 변수들을 위로
+                    끌어올리는 것 같다고 하여 호이스팅이라는 가상의 개념이 만들어졌습니다. 실행 컨텍스트와 호이스팅에
+                    대해서 궁금하시다면 아래의 글을 참고해주세요.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    관련 포스팅:
+                    <a href="https://striker1826.tistory.com/19"
+                      >실행 컨텍스트 (Execution Context), 호이스팅, 스코프 체인</a
+                    >
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <pre
+                    class="javascript"
+                    data-ke-language="javascript"
+                    data-ke-type="codeblock"
+                  ><code>console.log(a); // undefined
+
+var a = "hello";
+</code></pre>
+                  <p>
+                    위 코드에서 볼 수 있듯이 var로 선언된 변수는 호이스팅의 영향을 받아 전역 변수처럼 사용할 수 있게
+                    됩니다. 단, 선언된 변수에 값이 할당되지 않은 상태로 변수 선언부만 위로 끌어올려져서 undefined가 뜨게
+                    됩니다.
+                  </p>
+                  <p>
+                    이처럼 var는 호이스팅의 영향을 받아서 전역 변수처럼 사용할 수 있게 되고 재선언과 재할당이
+                    가능하다보니 JavaScript 코드상에서 예상치 못한 문제를 만들어 내곤 했습니다. 이러한 문제점을 해결하기
+                    위해 ES6에서 let과 const라는 변수 선언자가 등장하게 되었습니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <h1 style="color: #000000; text-align: start" data-ke-size="size26" id="let 변수 선언자">
+                    let 변수 선언자
+                  </h1>
+                  <hr />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    Es6에서 등장한 let 변수 선언자는 var의 문제점이었던 재선언을 못하게 막아두고 재할당만 가능하게
+                    만들었습니다. 그러므로 let을 사용하게 되면 내가 선언하려는 변수가 이미 존재한다면 에러를 발생시켜서
+                    개발자가 실수로 변수를 덮어쓰는 일을 방지할 수 있게 되었습니다
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <h3 data-ke-size="size23" id="재선언과 재할당_let">재선언과 재할당</h3>
+                  <pre class="javascript" data-ke-language="javascript" data-ke-type="codeblock"><code>let a = "hello";
+let a = "world"; // SyntaxError: Identifier 'a' has already been declared
+</code></pre>
+                  <p>
+                    위 코드를 보면 let으로 a를 재선언할 때 이미 있는 변수라고 하면서 SyntaxError가 뜨는 모습을 볼 수
+                    있습니다. 만약에 혹시 모를 개발자의 실수를 막아주는 것입니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <h3 data-ke-size="size23" id="호이스팅에서의 관점">호이스팅에서의 관점</h3>
+                  <p>
+                    let은 var와 달리 호이스팅의 영향을 받지 않습니다. 더 정확하게 말하자면 let도 Lexical Environment의
+                    수집 대상이긴 하지만 선언과 초기화가 동시에 이루어지는 var와는 달리 선언과 초기화가 분리되어서
+                    동작하기 때문에 선언을 함으로써 실행 컨텍스트에 변수를 등록했지만 초기화가 이루어지지 않은 상태이기
+                    때문에 메모리가 할당이 되지 않아 접근할 수 없어 참조 에러가 발생합니다. 결론적으로 let은 밑에서
+                    선언을 했다고 해서 위에서 사용을 할 수는 없다는 것입니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <pre
+                    class="javascript"
+                    data-ke-language="javascript"
+                    data-ke-type="codeblock"
+                  ><code>console.log(a);  // ReferenceError: Cannot access 'a' before initialization
+
+let a = "hello";
+</code></pre>
+                  <p>
+                    이 부분에 대해서 더 정확한 정보를 얻고 싶으시다면 <span style="color: #ee2323">TDZ</span>라는
+                    키워드로 검색을 해보시는 것을 추천드립니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    참고할 만한 블로그 링크: <a href="https://noogoonaa.tistory.com/78">TDZ(Temporal Dead Zone)이란?</a>
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <h1 style="color: #000000; text-align: start" data-ke-size="size26" id="const 변수 선언자">
+                    const 변수 선언자
+                  </h1>
+                  <hr />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    Es6에서 등장한 const 변수 선언자는 JavaScript의 상수로써 재할당과 재선언이 전부 불가능합니다.
+                    그러므로 const를 사용하게 되면 내가 선언하려는 변수가 이미 존재하거나 재할당을 시도하면 에러를
+                    발생시켜서 변수의 값을 보호할 수 있습니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <h3 data-ke-size="size23" id="재선언과 재할당_const">재선언과 재할당</h3>
+                  <pre
+                    class="javascript"
+                    data-ke-language="javascript"
+                    data-ke-type="codeblock"
+                  ><code>const a = "hello";
+const a = "world";   // SyntaxError: Identifier 'a' has already been declared
+a = "world";   // TypeError: Assignment to constant variable.
+</code></pre>
+                  <p>
+                    위 코드를 보면 알 수 있듯이 const는 재선언과 재할당이 불가능합니다. const를 사용하게 되면 내가
+                    선언하려는 변수가 이미 존재하거나 재할당을 시도하면 에러를 발생시켜서
+                    <span style="color: #ee2323">변수의 값을 보호</span>할 수 있습니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <h3 data-ke-size="size23" id="호이스팅에서의 관점_const">호이스팅에서의 관점</h3>
+                  <p>
+                    const 변수 선언자 역시 let과 동일합니다. Lexical Environment의 수집 대상이긴 하지만 선언과 초기화가
+                    동시에 이루어지는 var와는 달리 선언과 초기화가 분리되어서 동작하기 때문에 선언을 함으로써 실행
+                    컨텍스트에 변수를 등록했지만 초기화가 이루어지지 않은 상태이기 때문에 메모리가 할당이 되지 않아
+                    접근할 수 없어 참조 에러가 발생합니다. 이러한 특징은 보다 안전한 코드를 작성할 수 있게 해줍니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <h1 style="color: #000000; text-align: start" data-ke-size="size26" id="정리">정리</h1>
+                  <hr />
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <p>
+                    var, let, const는 모두 변수를 선언하기 위한 변수 선언자입니다. 하지만 각각의 변수 선언자는 다른
+                    특징을 가지고 있습니다. var는 재선언과 재할당이 모두 가능하고 호이스팅의 영향을 받지만 let은
+                    재선언은 불가능하고 재할당은 가능하며 호이스팅의 영향을 받지 않습니다. const는 재선언과 재할당이
+                    모두 불가능하며 호이스팅의 영향을 받지 않습니다. 이러한 특징들을 표로 정리하면 아래와 같습니다.
+                  </p>
+                  <p data-ke-size="size16" style="margin-bottom: 0px !important">&nbsp;</p>
+                  <table style="margin: 0 auto">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>var</th>
+                        <th>let</th>
+                        <th>const</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>재선언</td>
+                        <td>O</td>
+                        <td>X</td>
+                        <td>X</td>
+                      </tr>
+                      <tr>
+                        <td>재할당</td>
+                        <td>O</td>
+                        <td>O</td>
+                        <td>X</td>
+                      </tr>
+                      <tr>
+                        <td>호이스팅</td>
+                        <td>O</td>
+                        <td>X</td>
+                        <td>X</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
